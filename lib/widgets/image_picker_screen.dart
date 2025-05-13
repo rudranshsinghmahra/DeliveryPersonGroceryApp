@@ -11,9 +11,10 @@ class ShopPicCard extends StatefulWidget {
 }
 
 class _ShopPicCardState extends State<ShopPicCard> {
+  File? image;
+
   @override
   Widget build(BuildContext context) {
-    File? image;
     final authData = Provider.of<AuthProvider>(context);
     final Size size = MediaQuery.of(context).size;
     return Padding(
@@ -23,8 +24,6 @@ class _ShopPicCardState extends State<ShopPicCard> {
           authData.getImage().then((value) {
             setState(() {
               image = value;
-              print("Image Url is $image");
-              print("Image Value is $value");
             });
             if (value != null) {
               authData.isPictureAvailable = true;
@@ -32,17 +31,17 @@ class _ShopPicCardState extends State<ShopPicCard> {
           });
         },
         child: SizedBox(
-          height: size.height/3,
-          width: size.width/1,
+          height: size.height / 3,
+          width: size.width / 1,
           child: Card(
-            child: image?.path != null
-                ? Image.asset(image!.path)
+            child: image != null
+                ? Image.file(image!,fit: BoxFit.fill,)
                 : Center(
-                    child: Container(
-                      color: Colors.blue,
-                      child: const Text(
-                        "Add Shop Image",
-                        style: TextStyle(fontSize: 20, color: Colors.black45),
+                    child: const Text(
+                      "Add Profile Image",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black45,
                       ),
                     ),
                   ),

@@ -191,11 +191,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: isLoading
                             ? const Center(
-                                child: LinearProgressIndicator(),
+                                child: LinearProgressIndicator(color: Colors.white,),
                               )
-                            : const Text(
+                            : Text(
                                 "Login",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 20,color: Colors.white),
                               ),
                       ),
                     ),

@@ -60,13 +60,13 @@ class AuthProvider extends ChangeNotifier {
     double shopLongitude = locationData.longitude!;
     notifyListeners();
 
-    List<geocoding.Placemark> placemarks =
+    List<geocoding.Placemark> placeMarks =
         await geocoding.placemarkFromCoordinates(shopLatitude, shopLongitude);
-    geocoding.Placemark place = placemarks.first;
+    geocoding.Placemark place = placeMarks.first;
 
-    this.shopAddress =
-        '${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}';
-    String placeName = place.name ?? '';
+    shopAddress =
+        '${place.name}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country} - ${place.postalCode}';
+    placeName = place.name ?? '';
     notifyListeners();
 
     return place;

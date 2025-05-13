@@ -6,8 +6,10 @@ import 'package:grocery_delivery_person_app/provider/orders_provider.dart';
 import 'package:grocery_delivery_person_app/services/firebase_services.dart';
 import 'package:grocery_delivery_person_app/widgets/order_summary_card.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   static const String id = "home-screen";
 
   @override
@@ -59,31 +61,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 choiceItems: C2Choice.listFrom<int, String>(
                     source: options, value: (i, v) => i, label: (i, v) => v)),
           ),
-          Container(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: _services.orders
-                  .where('deliveryBoy.email', isEqualTo: user?.email)
-                  .where('orderStatus',
-                      isEqualTo: tag == 0 ? null : _orderProvider.status)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('Something went wrong');
-                }
-                if (snapshot.data?.size == 0) {
-                  //TODO: No orders screen
-                  return Center(
-                    child: Text(tag > 0
-                        ? "No ${options[tag]} orders"
-                        : "No Orders. Continue Shopping"),
-                  );
-                }
+          StreamBuilder<QuerySnapshot>(
+            stream: _services.orders
+                .where('deliveryBoy.email', isEqualTo: user?.email)
+                .where('orderStatus',
+                    isEqualTo: tag == 0 ? null : _orderProvider.status)
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Text('Something went wrong');
+              }
+              if (snapshot.data?.size == 0) {
+                //TODO: No orders screen
+                return Center(
+                  child: Text(tag > 0
+                      ? "No ${options[tag]} orders"
+                      : "No Orders. Continue Shopping"),
+                );
+              }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return ListView(
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Expanded(
+                child: ListView(
                   shrinkWrap: true,
                   children:
                       snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -93,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       documentSnapshot: document,
                     );
                   }).toList(),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),

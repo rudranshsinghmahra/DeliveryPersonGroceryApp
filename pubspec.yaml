@@ -50,6 +50,7 @@ dependencies:
   map_launcher: ^3.5.0
   intl: ^0.20.1
   chips_choice: ^3.0.1
+  flutter_phone_direct_caller: ^2.2.1
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,7 @@ import '../provider/auth_provider.dart';
 import '../screens/login_screen.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({Key? key}) : super(key: key);
+  const RegisterForm({super.key});
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -213,9 +213,6 @@ class _RegisterFormState extends State<RegisterForm> {
                       if (value!.isEmpty) {
                         return "Press Navigator Button";
                       }
-                      if (authData.shopLatitude == null) {
-                        return "Press Navigator Button";
-                      }
                       return null;
                     },
                     decoration: InputDecoration(
@@ -227,7 +224,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               if (value != null) {
                                 setState(() {
                                   _addressTextEditingController.text =
-                                      "${authData.placeName}\n${authData.shopAddress}";
+                                      "${authData.shopAddress}";
                                 });
                               } else {
                                 showAlert(
@@ -238,7 +235,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           icon: const Icon(Icons.location_searching),
                         ),
                         prefixIcon: const Icon(Icons.contact_mail_outlined),
-                        labelText: "Home Address",
+                        labelText: "Residential Address",
                         enabledBorder: const OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -255,7 +252,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     Expanded(
                       child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
+                            backgroundColor: WidgetStateProperty.all(
                                 Theme.of(context).primaryColor)),
                         onPressed: () {
                           if (authData.isPictureAvailable == true) {
@@ -273,24 +270,19 @@ class _RegisterFormState extends State<RegisterForm> {
                                   //Vendor is registered Successfully. Now upload Profile Pic to Firestore.
                                   uploadFile(authData.image!.path)
                                       .then((value) {
-                                    if (value != null) {
-                                      //Save vendor details to database
-                                      authData.saveDeliveryBoyDataToDatabase(
-                                        url: value,
-                                        name: deliveryBoyName,
-                                        mobile: mobile,
-                                        password: password,
-                                        context: context,
-                                      );
-                                      setState(() {
-                                        formKey.currentState?.reset();
-                                        isLoading = false;
-                                      });
-                                    } else {
-                                      showAlert(
-                                          "Failed to upload Shop Profile Picture");
-                                    }
-                                  });
+                                    //Save vendor details to database
+                                    authData.saveDeliveryBoyDataToDatabase(
+                                      url: value,
+                                      name: deliveryBoyName,
+                                      mobile: mobile,
+                                      password: password,
+                                      context: context,
+                                    );
+                                    setState(() {
+                                      formKey.currentState?.reset();
+                                      isLoading = false;
+                                    });
+                                                                    });
                                 } else {
                                   //Registration Failed
                                 }

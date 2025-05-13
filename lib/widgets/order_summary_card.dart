@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:grocery_delivery_person_app/services/firebase_services.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
 import '../services/order_services.dart';
 
@@ -108,8 +109,8 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
                         IconButton(
                           icon: const Icon(Icons.phone),
                           onPressed: () {
-                            // FlutterPhoneDirectCaller.callNumber(
-                            //     customer?['number']);
+                            FlutterPhoneDirectCaller.callNumber(
+                                customer?['number']);
                           },
                         ),
                       ],
@@ -289,30 +290,35 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
   Widget statusContainer(DocumentSnapshot documentSnapshot) {
     if (documentSnapshot['deliveryBoy']['name'].length > 1) {
       if (documentSnapshot['orderStatus'] == "Accepted") {
-        return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 6.0, bottom: 6.0,left: 10,right: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                EasyLoading.show();
-                _services
-                    .updateStatus(
-                        id: documentSnapshot.id, status: "Picked-Up")
-                    .then((value) {
-                  EasyLoading.showSuccess(
-                      "You have successfully picked up the order");
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                    _orderService.statusColor(documentSnapshot)),
-              ),
-              child: const Text(
-                "Update Status : Order Picked-Up",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+        return Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 6.0, bottom: 6.0, left: 10, right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    EasyLoading.show();
+                    _services
+                        .updateStatus(
+                            id: documentSnapshot.id, status: "Picked-Up")
+                        .then((value) {
+                      EasyLoading.showSuccess(
+                          "You have successfully picked up the order");
+                    });
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        _orderService.statusColor(documentSnapshot)),
+                  ),
+                  child: const Text(
+                    "Update Status : Order Picked-Up",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         );
       }
 
@@ -321,7 +327,8 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 6.0, bottom: 6.0,left: 10,right: 10),
+                padding: const EdgeInsets.only(
+                    top: 6.0, bottom: 6.0, left: 10, right: 10),
                 child: ElevatedButton(
                   onPressed: () {
                     EasyLoading.show();
@@ -353,7 +360,8 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 6.0, bottom: 6.0,left: 10,right: 10),
+                padding: const EdgeInsets.only(
+                    top: 6.0, bottom: 6.0, left: 10, right: 10),
                 child: ElevatedButton(
                   onPressed: () {
                     if (documentSnapshot['cod'] == true) {
@@ -390,7 +398,8 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 6.0, bottom: 6.0,left: 10,right: 10),
+                padding: const EdgeInsets.only(
+                    top: 6.0, bottom: 6.0, left: 10, right: 10),
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ButtonStyle(
